@@ -1,0 +1,6 @@
+---
+# defaults file for nagios
+#
+
+nagios_user: testuser
+nagios_pw: start123

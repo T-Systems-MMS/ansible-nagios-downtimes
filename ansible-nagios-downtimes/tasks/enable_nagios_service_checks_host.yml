@@ -1,0 +1,32 @@
+---
+- name: "Enable Nagios host notficiations for single host with hosts"
+  uri:
+    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=15&cmd_mod=2&host={{ item }}&ahas={{ affect_host_and_services }}&btnSubmit=Commit"
+    method: GET
+    force_basic_auth: yes
+    user: "{{ nagios_user }}"
+    password: "{{ nagios_pw }}"
+    status_code: 200
+    follow_redirects: all
+    return_content: yes
+    register: httpreturn
+  delegate_to: localhost
+  with_inventory_hostnames:
+    - "{{ my_hosts }}"
+  when: affect_host_and_services == "true"
+
+- name: "Enable Nagios host notficiations for single host without hosts"
+  uri:
+    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=15&cmd_mod=2&host={{ item }}&btnSubmit=Commit"
+    method: GET
+    force_basic_auth: yes
+    user: "{{ nagios_user }}"
+    password: "{{ nagios_pw }}"
+    status_code: 200
+    follow_redirects: all
+    return_content: yes
+    register: httpreturn
+  delegate_to: localhost
+  with_inventory_hostnames:
+    - "{{ my_hosts }}"
+  when: affect_host_and_services == "false"

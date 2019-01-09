@@ -1,0 +1,61 @@
+---
+# tasks file for nagios
+#
+
+# Common stuff
+- name: Load recommanded facts from nodes
+  setup:
+    filter: ansible_nodename
+  delegate_facts: yes
+  when:
+    - ansible_nodename is not defined
+    - (type == "service_checks_host")
+
+- name: Register environment
+  set_fact:
+    ENV: "{{ env | upper }}"
+  run_once: true
+  delegate_to: localhost
+
+- name: Register hostname
+  set_fact:
+     my_hosts: "{{ ansible_nodename }}"
+  when:
+    - (type == "service_checks_host")
+
+
+### Service checks per hostgroup ###
+- name: Include task ../enable_nagios_service_checks_hostgroup.yml
+  include_tasks: enable_nagios_service_checks_hostgroup.yml
+  tags:
+    - enable_nagios
+  when:
+    - state == "enabled"
+    - type == "service_checks_hostgroup"
+
+- name: Include task ../disable_nagios_service_checks_hostgroup.yml
+  include_tasks: disable_nagios_service_checks_hostgroup.yml
+  tags:
+    - disable_nagios
+  when:
+    - state == "disabled"
+    - type == "service_checks_hostgroup"
+### END ###
+
+### Service checks per single host ###
+- name: Include task ../enable_nagios_service_checks_host.yml
+  include_tasks: enable_nagios_service_checks_host.yml
+  tags:
+    - enable_nagios
+  when:
+    - state == "enabled"
+    - type == "service_checks_host"
+
+- name: Include task ../disable_nagios_service_checks_host.yml
+  include_tasks: disable_nagios_service_checks_host.yml
+  tags:
+    - disable_nagios
+  when:
+    - state == "disabled"
+    - type == "service_checks_host"
+### END ###

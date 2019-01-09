@@ -1,0 +1,30 @@
+---
+- name: Enable Nagios service checks for hostgroup with hosts
+  uri:
+    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=67&cmd_mod=2&hostgroup=DML_{{ ENV }}&ahas={{ affect_host_and_services }}&btnSubmit=Commit"
+    method: GET
+    force_basic_auth: yes
+    user: "{{ nagios_user }}"
+    password: "{{ nagios_pw }}"
+    status_code: 200
+    follow_redirects: all
+    return_content: yes
+    register: httpreturn
+  run_once: true
+  delegate_to: localhost
+  when: affect_host_and_services == "true"
+
+- name: Enable Nagios service checks for hostgroup without hosts
+  uri:
+    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=67&cmd_mod=2&hostgroup=DML_{{ ENV }}&btnSubmit=Commit"
+    method: GET
+    force_basic_auth: yes
+    user: "{{ nagios_user }}"
+    password: "{{ nagios_pw }}"
+    status_code: 200
+    follow_redirects: all
+    return_content: yes
+    register: httpreturn
+  run_once: true
+  delegate_to: localhost
+  when: affect_host_and_services == "false"
