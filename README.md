@@ -12,7 +12,8 @@ Role Variables
 --------------
 
 - nagios_uri
-- env
+- PROJECT_PREFIX
+- ENV
 - type
 - affected_hosts_and_services
 - nagios_user
@@ -42,4 +43,4 @@ Apache
 Author Information
 ------------------
 
-This role was created by @FLiPp3r90
+This role was created by Filip Krahl
