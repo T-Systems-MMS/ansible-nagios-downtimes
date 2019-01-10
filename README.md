@@ -43,4 +43,4 @@ Apache
 Author Information
 ------------------
 
-This role was created by Filip Krahl
+This role was created by [Filip Krahl]
