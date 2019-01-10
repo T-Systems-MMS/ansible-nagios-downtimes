@@ -1,7 +1,7 @@
 ---
 - name: Enable Nagios service checks for hostgroup with hosts
   uri:
-    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=67&cmd_mod=2&hostgroup=DML_{{ ENV }}&ahas={{ affect_host_and_services }}&btnSubmit=Commit"
+    url: "{{ nagios_uri }}/cgi-bin/cmd.cgi?cmd_typ=67&cmd_mod=2&hostgroup={{ PROJECT_PREFIX }}{{ ENV }}&ahas={{ affect_host_and_services }}&btnSubmit=Commit"
     method: GET
     force_basic_auth: yes
     user: "{{ nagios_user }}"
